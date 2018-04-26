@@ -4,13 +4,32 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour {
 
-    public float Speed = 1f;
+    public float playerSpeed = 120f;
+    public float rotateSpeed = 120f;
 
-    private void Update()
+    private Rigidbody2D sprite;
+
+    private void Start()
     {
-        Vector3 Target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Target.z = transform.position.z;
+        // Fetch Rigidbody attached to GameObject
+        sprite = GetComponent<Rigidbody2D>();
+    }
 
-        transform.position = Vector3.MoveTowards(transform.position, Target, Speed * Time.deltaTime);
+    void Update()
+    {
+        // Rotation
+        if (Input.GetKey(KeyCode.LeftArrow))
+            transform.Rotate(new Vector3(0, 0, 1) * Time.deltaTime * rotateSpeed, Space.World);
+
+        if (Input.GetKey(KeyCode.RightArrow))
+            transform.Rotate(new Vector3(0, 0, -1) * Time.deltaTime * rotateSpeed, Space.World);
+
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            sprite.velocity = transform.up * playerSpeed * Time.deltaTime;
+        } else
+        {
+            sprite.velocity = Vector2.zero;
+        }
     }
 }

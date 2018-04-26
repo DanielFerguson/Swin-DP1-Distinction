@@ -24,12 +24,19 @@ public class Movement : MonoBehaviour {
         if (Input.GetKey(KeyCode.RightArrow))
             transform.Rotate(new Vector3(0, 0, -1) * Time.deltaTime * rotateSpeed, Space.World);
 
+        // Forward Movement
         if (Input.GetKey(KeyCode.UpArrow))
         {
             sprite.velocity = transform.up * playerSpeed * Time.deltaTime;
         } else
         {
             sprite.velocity = Vector2.zero;
+        }
+
+        // Backwards 
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            sprite.velocity = -transform.up * playerSpeed * Time.deltaTime;
         }
     }
 }

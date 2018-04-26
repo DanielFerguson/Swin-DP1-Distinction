@@ -10,7 +10,8 @@ public class Eating : MonoBehaviour {
 
     private int Score = 0;
 
-    private void OnTriggerEnter(Collider other)
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == Tag)
         {
@@ -21,5 +22,6 @@ public class Eating : MonoBehaviour {
             Score += 10;
             Letters.text = "Score: " + Score;
         }
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿public enum PlayerChoice
 {
-    CompSci,
+    ComputerScience,
     Accounting,
     Medical,
     Teaching,

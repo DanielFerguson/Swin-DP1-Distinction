@@ -1,12 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class CharacterCustomization : MonoBehaviour {
-
-    // TODO: Impliment warning message to show which player hasnt entered a choice
     // TODO: Fix alpha channel on select
 
     [Header("Player 1")]
@@ -32,11 +28,9 @@ public class CharacterCustomization : MonoBehaviour {
     public GameObject BothPlayerError;
     public GameObject ContinueMessage;
 
-    // Currently selected option
-    private PlayerChoice player1Choice;
-    private PlayerChoice player2Choice;
+    private PlayerChoice player1Choice = PlayerChoice.notYetSelected;
+    private PlayerChoice player2Choice = PlayerChoice.notYetSelected;
 
-    // Is in an error state
     private bool isErrorShowing = false;
 
 
@@ -44,12 +38,7 @@ public class CharacterCustomization : MonoBehaviour {
     {
         // Reset images
         ResetPlayerSelection(0);
-
-        // Instanciate Player Choice
-        player1Choice = PlayerChoice.notYetSelected;
-        player2Choice = PlayerChoice.notYetSelected;
     }
-
     public void Update()
     {
         // Check if in error state
@@ -59,7 +48,7 @@ public class CharacterCustomization : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.W))
             {
                 // Update choiceSelection
-                player1Choice = PlayerChoice.CompSci;
+                player1Choice = PlayerChoice.ComputerScience;
 
                 // Reset all selections
                 ResetPlayerSelection(1);
@@ -105,7 +94,7 @@ public class CharacterCustomization : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 // Update choiceSelection
-                player2Choice = PlayerChoice.CompSci;
+                player2Choice = PlayerChoice.ComputerScience;
 
                 // Reset all selections
                 ResetPlayerSelection(2);
@@ -146,13 +135,6 @@ public class CharacterCustomization : MonoBehaviour {
                 // Change selection color
                 rightImage.color = selected;
             }
-
-            // Debug Purposes
-            if (Input.anyKeyDown)
-            {
-                Debug.Log("Player 1 Selection: " + player1Choice.ToString());
-                Debug.Log("Player 2 Selection: " + player2Choice.ToString());
-            }
         }
         else
         {
@@ -173,8 +155,12 @@ public class CharacterCustomization : MonoBehaviour {
         }
     }
 
-    // Reset selection
-    public void ResetPlayerSelection (int player)
+    public void SaveToPlayerPreferences()   // Save players class choices
+    {
+        PlayerPrefs.SetString("Player1Class", player1Choice.ToString());
+        PlayerPrefs.SetString("Player2Class", player2Choice.ToString());
+    }   
+    public void ResetPlayerSelection (int player)   // Reset selection
     {
         // Reset All
         if (player == 0)
@@ -207,18 +193,15 @@ public class CharacterCustomization : MonoBehaviour {
             rightImage.color = avaliable;
         }
     }
-
-    // Attached to Play Button to start game
-    public void PlayGame()
+    public void PlayGame()  // Attached to Play Button to start game
     {
-        // Check to make sure both players have made a selection
-        // If not, show an appropriate message
+        // Check to make sure both players have made a selection. If not, show an appropriate message
 
         // Both players have made a selection, proceed
         if (player1Choice != PlayerChoice.notYetSelected && 
             player2Choice != PlayerChoice.notYetSelected) {
-            // TODO: Build characters with customization
-            SceneManager.LoadScene("Game");
+            SaveToPlayerPreferences();  // Save player preferences
+            SceneManager.LoadScene("Game"); // Load into Game scene
 
         } else {
             // Set isErrorShowing to True
@@ -244,15 +227,11 @@ public class CharacterCustomization : MonoBehaviour {
             }
         }
     }
-
-    // Attached to Back Button to return to Main Menu
-    public void Back()
+    public void Back()  // Attached to Back Button to return to Main Menu
     {
         SceneManager.LoadScene("MainMenu");
     }
-
-    // Attached to Quit Button to exit the application
-    public void QuitGame()
+    public void QuitGame()  // Attached to Quit Button to exit the application
     {
         Debug.Log("QUIT!");
         Application.Quit();

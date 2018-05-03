@@ -17,13 +17,13 @@ public class Player : MonoBehaviour {
     private SpriteRenderer Renderer;
 
     // GameObject Variables
-    internal PlayerChoice _playerChoice;
     private Class.ClassManager _playerClass;
     private string playerName;
     private int playerLevel = 0;
     private int playerDebt;
     private int unitCreditsRequired;
     private bool canMove = true;
+    internal PlayerChoice _playerChoice;
     public bool hasWon = false;
 
     void Start()
@@ -49,8 +49,6 @@ public class Player : MonoBehaviour {
         {
             if (playerName == "Player 1")
             {
-                // WASD
-
                 // Rotation
                 if (Input.GetKey(KeyCode.A))
                 {
@@ -200,14 +198,16 @@ public class Player : MonoBehaviour {
                 break;
         }
     }
+
     private void SetupPlayer()
     {
         Renderer.sprite = Resources.Load<Sprite>(_playerClass._TAFE._spriteLocation);       // Sprite
         playerLevel = _playerClass._TAFE._level;                                            // Level
         playerSpeed = playerSpeed * _playerClass._TAFE._speed;                              // Speed
-        playerDebt = _playerClass._TAFE._debtAdd;                                                 // Debt
+        playerDebt = _playerClass._TAFE._debtAdd;                                           // Debt
         unitCreditsRequired = _playerClass._TAFE._creditsReq;                               // Required Unit Scores
     }
+
     private string LoadPlayerSprite()
     {
         switch (playerLevel)
@@ -220,6 +220,7 @@ public class Player : MonoBehaviour {
             default: return _playerClass._TAFE._spriteLocation;
         }
     }
+
     IEnumerator FreezePlayer()
     {
         canMove = false;

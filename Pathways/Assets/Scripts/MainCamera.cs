@@ -32,14 +32,19 @@ public class MainCamera : MonoBehaviour
         p1Trans = player1.transform;
         p2Trans = player2.transform;
 
+        // Find the midpoint between the two player transformations
         Vector3 midpoint = (p1Trans.position + p2Trans.position) / 2f;
+
+        // Find the distance between the two player transformations
         distanceBetween = (p1Trans.position - p2Trans.position).magnitude;
 
+        // Sets the minimum camera distance, so when the players are too close together
+        // the camera isnt incredibly close to eachother
         if (distanceBetween < 5f)
             distanceBetween = minSize;
 
+        // Find the appropriate position and distance for the camera to be
         Vector3 cameraDestination = midpoint - camera.transform.forward * distanceBetween * zoomFactor;
-
         camera.orthographicSize = distanceBetween;
         camera.transform.position = Vector3.Slerp(camera.transform.position, cameraDestination, followTimeDelta);
     }

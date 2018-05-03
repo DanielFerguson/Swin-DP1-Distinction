@@ -7,13 +7,11 @@ public class MainMenu : MonoBehaviour {
 
 	public void PlayGame()
     {
-        // Get current scene index, and increment it into Game Scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene("CharacterSetup");
     }
 
     public void QuitGame()
     {
-        Debug.Log("QUIT!");
         Application.Quit();
     }
 }

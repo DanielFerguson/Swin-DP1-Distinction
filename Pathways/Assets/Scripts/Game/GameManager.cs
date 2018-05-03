@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour {
 
     private TextMeshProUGUI playerNameText;
 
-    // Get Player Script from GameObject
     private Player p1Object;
     private Player p2Object;
 
@@ -26,7 +25,11 @@ public class GameManager : MonoBehaviour {
     void Start()
     {
         playerNameText = playerName.GetComponent<TextMeshProUGUI>();
+
+        // Reset the gameWon at each new game
         gameWon = false;
+
+        // Make sure game timeScale
         Time.timeScale = 1f;
     }
 

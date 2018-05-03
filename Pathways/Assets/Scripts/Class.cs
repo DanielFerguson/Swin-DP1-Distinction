@@ -11,7 +11,6 @@ public class Class : MonoBehaviour {
     private static string mdBase = "Sprites/Characters/Medicine/";
     private static string teBase = "Sprites/Characters/Teaching/";
 
-
     // Base Classes
     public class BaseClass {
         public readonly string _spriteLocation;

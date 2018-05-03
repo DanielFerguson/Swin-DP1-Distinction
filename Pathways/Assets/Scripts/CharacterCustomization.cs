@@ -47,92 +47,52 @@ public class CharacterCustomization : MonoBehaviour {
             // Player 1 Selections
             if (Input.GetKeyDown(KeyCode.W))
             {
-                // Update choiceSelection
                 player1Choice = PlayerChoice.ComputerScience;
-
-                // Reset all selections
                 ResetPlayerSelection(1);
-
-                // Change selection color
                 wImage.color = selected;
             }
             if (Input.GetKeyDown(KeyCode.A))
             {
-                // Update choiceSelection
                 player1Choice = PlayerChoice.Teaching;
-
-                // Reset all selections
                 ResetPlayerSelection(1);
-
-                // Change selection color
                 aImage.color = selected;
             }
             if (Input.GetKeyDown(KeyCode.S))
             {
-                // Update choiceSelection
                 player1Choice = PlayerChoice.Accounting;
-
-                // Reset all selections
                 ResetPlayerSelection(1);
-
-                // Change selection color
                 sImage.color = selected;
             }
             if (Input.GetKeyDown(KeyCode.D))
             {
-                // Update choiceSelection
                 player1Choice = PlayerChoice.Accounting;
-
-                // Reset all selections
                 ResetPlayerSelection(1);
-
-                // Change selection color
                 dImage.color = selected;
             }
 
             // Player 2 Selections
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                // Update choiceSelection
                 player2Choice = PlayerChoice.ComputerScience;
-
-                // Reset all selections
                 ResetPlayerSelection(2);
-
-                // Change selection color
                 upImage.color = selected;
             }
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                // Update choiceSelection
                 player2Choice = PlayerChoice.Accounting;
-
-                // Reset all selections
                 ResetPlayerSelection(2);
-
-                // Change selection color
                 downImage.color = selected;
             }
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                // Update choiceSelection
                 player2Choice = PlayerChoice.Teaching;
-
-                // Reset all selections
                 ResetPlayerSelection(2);
-
-                // Change selection color
                 leftImage.color = selected;
             }
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                // Update choiceSelection
                 player2Choice = PlayerChoice.Medical;
-
-                // Reset all selections
                 ResetPlayerSelection(2);
-
-                // Change selection color
                 rightImage.color = selected;
             }
         }
@@ -155,12 +115,15 @@ public class CharacterCustomization : MonoBehaviour {
         }
     }
 
-    public void SaveToPlayerPreferences()   // Save players class choices
+    // Save players class choices
+    public void SaveToPlayerPreferences()
     {
         PlayerPrefs.SetString("Player1Class", player1Choice.ToString());
         PlayerPrefs.SetString("Player2Class", player2Choice.ToString());
-    }   
-    public void ResetPlayerSelection (int player)   // Reset selection
+    }
+
+    // Reset selection
+    public void ResetPlayerSelection (int player)
     {
         // Reset All
         if (player == 0)
@@ -193,7 +156,7 @@ public class CharacterCustomization : MonoBehaviour {
             rightImage.color = avaliable;
         }
     }
-    public void PlayGame()  // Attached to Play Button to start game
+    public void PlayGame()
     {
         // Check to make sure both players have made a selection. If not, show an appropriate message
 
@@ -214,26 +177,30 @@ public class CharacterCustomization : MonoBehaviour {
             // Check which player hasnt made a selection
             if (player1Choice == PlayerChoice.notYetSelected && 
                 player2Choice == PlayerChoice.notYetSelected) {
-                BothPlayerError.SetActive(true);                    // If neither player has made a choice
-
+                
+                // If neither player has made a choice
+                BothPlayerError.SetActive(true);
             }
             if (player1Choice == PlayerChoice.notYetSelected &&
                 player2Choice != PlayerChoice.notYetSelected) {
-                Player1Error.SetActive(true);                       // Player 1 hasnt made a choice
+                
+                // Player 1 hasnt made a choice
+                Player1Error.SetActive(true);
             }
             if (player1Choice != PlayerChoice.notYetSelected &&
                 player2Choice == PlayerChoice.notYetSelected) {
-                Player2Error.SetActive(true);                       // Player 2 hasnt made a choice
+                
+                // Player 2 hasnt made a choice
+                Player2Error.SetActive(true);
             }
         }
     }
-    public void Back()  // Attached to Back Button to return to Main Menu
+    public void Back()
     {
         SceneManager.LoadScene("MainMenu");
     }
-    public void QuitGame()  // Attached to Quit Button to exit the application
+    public void QuitGame()
     {
-        Debug.Log("QUIT!");
         Application.Quit();
     }
 }

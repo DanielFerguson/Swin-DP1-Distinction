@@ -35,8 +35,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1247463556703254}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -6.12788, y: 2.7472074, z: 0}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -57,7 +57,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 3.96, y: 5.12}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -65,12 +65,14 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0, y: 0.5}
-      - {x: -0.43301272, y: 0.24999999}
-      - {x: -0.4330127, y: -0.25000003}
-      - {x: 0.00000004371139, y: -0.5}
-      - {x: 0.43301272, y: -0.24999996}
-      - {x: 0.43301272, y: 0.24999996}
+    - - {x: 0.6602249, y: 2.5366287}
+      - {x: -1.7758465, y: 2.5551958}
+      - {x: -1.9548893, y: 2.1223373}
+      - {x: -1.9806767, y: -2.1337795}
+      - {x: -1.6259975, y: -2.5551958}
+      - {x: 1.616127, y: -2.556797}
+      - {x: 1.974472, y: -2.1013079}
+      - {x: 1.9530697, y: 1.3536749}
 --- !u!212 &212479080231295172
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -105,8 +107,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c8ef7592c625b67419dc6dd134346c9f, type: 3}
-  m_Color: {r: 1, g: 0.5562284, b: 0.20588237, a: 1}
+  m_Sprite: {fileID: 21300000, guid: bcdd751c181bd0d4fb55678e482181e8, type: 3}
+  m_Color: {r: 0.9689655, g: 0.9689655, b: 0.9689655, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

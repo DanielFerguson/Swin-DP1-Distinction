@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class Player : MonoBehaviour {
 
@@ -8,6 +9,12 @@ public class Player : MonoBehaviour {
     [Header("UI Elements")]
     public Text Credits;
     public Text Debt;
+
+    // Sound Elements
+    [Header("Sound Elements")]
+    public AudioClip moneySound;
+    public AudioClip creditSound;
+    private AudioSource audioSource;
 
     private float playerSpeed = 120f;
     private float rotateSpeed = 120f;
@@ -24,6 +31,8 @@ public class Player : MonoBehaviour {
     private int unitCreditsRequired;
     private bool canMove = true;
     internal PlayerChoice _playerChoice;
+
+    [Header("DEBUG")]
     public bool hasWon = false;
 
     void Start()
@@ -31,6 +40,9 @@ public class Player : MonoBehaviour {
         // Fetch required components attached to GameObject
         Rigidbody = GetComponent<Rigidbody2D>();
         Renderer = GetComponent<SpriteRenderer>();
+
+        // Sounds
+        audioSource = GetComponent<AudioSource>();
 
         // Find object name
         playerName = transform.name;
@@ -120,6 +132,7 @@ public class Player : MonoBehaviour {
 
             // Decrement unit credits required
             unitCreditsRequired -= 10;
+            audioSource.PlayOneShot(creditSound);
             Credits.text = "Credits Needed: " + unitCreditsRequired.ToString();
         }
 
@@ -148,7 +161,6 @@ public class Player : MonoBehaviour {
     // Internal Tools
     private void LoadPlayerChoice()
     {
-        // Get string variable of class
         switch (playerName)
         {
             case "Player 1":
@@ -198,7 +210,6 @@ public class Player : MonoBehaviour {
                 break;
         }
     }
-
     private void SetupPlayer()
     {
         Renderer.sprite = Resources.Load<Sprite>(_playerClass._TAFE._spriteLocation);       // Sprite
@@ -207,7 +218,6 @@ public class Player : MonoBehaviour {
         playerDebt = _playerClass._TAFE._debtAdd;                                           // Debt
         unitCreditsRequired = _playerClass._TAFE._creditsReq;                               // Required Unit Scores
     }
-
     private string LoadPlayerSprite()
     {
         switch (playerLevel)
@@ -220,11 +230,11 @@ public class Player : MonoBehaviour {
             default: return _playerClass._TAFE._spriteLocation;
         }
     }
-
     IEnumerator FreezePlayer()
     {
         canMove = false;
         yield return new WaitForSeconds(JobsHandler.WaitTime);
         canMove = true;
+        audioSource.PlayOneShot(moneySound);
     }
 }

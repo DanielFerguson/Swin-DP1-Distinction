@@ -6,10 +6,10 @@ using UnityEngine;
 public class Class : MonoBehaviour {
 
     // Base resource directory paths
-    private static string acBase = "Sprites/Characters/Accounting/";
-    private static string csBase = "Sprites/Characters/ComputerScience/";
-    private static string mdBase = "Sprites/Characters/Medicine/";
-    private static string teBase = "Sprites/Characters/Teaching/";
+    private static string accSprite = "Sprites/Characters/ACC";
+    private static string csSprite = "Sprites/Characters/CS";
+    private static string medSprite = "Sprites/Characters/MED";
+    private static string teaSprite = "Sprites/Characters/TEA";
 
     // Base Classes
     public class BaseClass {
@@ -51,42 +51,36 @@ public class Class : MonoBehaviour {
     public static ClassManager Accounting = new ClassManager(
         NAME: "Accounting",
         ACRO: "ACC",
-        TAFE: new BaseClass(GetSpriteLocation(acBase, "AC-TAFE"), 1f, 0, 500, 25),
-        DIPL: new BaseClass(GetSpriteLocation(acBase, "AC-DIPL"), 3f, 1, 100, 50),
-        BACH: new BaseClass(GetSpriteLocation(acBase, "AC-BACH"), 5f, 2, 150, 100),
-        HONR: new BaseClass(GetSpriteLocation(acBase, "AC-HONR"), 6f, 3, 150, 150),
-        PHD: new BaseClass(GetSpriteLocation(acBase, "AC-PHD"), 8f, 4, 350, 200));
+        TAFE: new BaseClass(accSprite, 1f, 0, 500, 25),
+        DIPL: new BaseClass(accSprite, 3f, 1, 100, 50),
+        BACH: new BaseClass(accSprite, 5f, 2, 150, 100),
+        HONR: new BaseClass(accSprite, 6f, 3, 150, 150),
+        PHD: new BaseClass(accSprite, 8f, 4, 350, 200));
 
     public static ClassManager ComputerScience = new ClassManager(
         NAME: "Computer Science",
         ACRO: "CS",
-        TAFE: new BaseClass(GetSpriteLocation(csBase, "CS-TAFE"), 1f, 0, 500, 25),
-        DIPL: new BaseClass(GetSpriteLocation(csBase, "CS-DIPL"), 2f, 1, 100, 50),
-        BACH: new BaseClass(GetSpriteLocation(csBase, "CS-BACH"), 4f, 2, 200, 100),
-        HONR: new BaseClass(GetSpriteLocation(csBase, "CS-HONR"), 8f, 3, 100, 150),
-        PHD: new BaseClass(GetSpriteLocation(csBase, "CS-PHD"), 13f, 4, 600, 200));
+        TAFE: new BaseClass(csSprite, 1f, 0, 500, 25),
+        DIPL: new BaseClass(csSprite, 2f, 1, 100, 50),
+        BACH: new BaseClass(csSprite, 4f, 2, 200, 100),
+        HONR: new BaseClass(csSprite, 8f, 3, 100, 150),
+        PHD: new BaseClass(csSprite, 13f, 4, 600, 200));
 
     public static ClassManager Medicine = new ClassManager(
         NAME: "Medicine",
         ACRO: "MED",
-        TAFE: new BaseClass(GetSpriteLocation(mdBase, "MD-TAFE"), 1f, 0, 500, 25),
-        DIPL: new BaseClass(GetSpriteLocation(mdBase, "MD-DIPL"), 1f, 1, 300, 50),
-        BACH: new BaseClass(GetSpriteLocation(mdBase, "MD-BACH"), 4f, 2, 1000, 100),
-        HONR: new BaseClass(GetSpriteLocation(mdBase, "MD-HONR"), 11f, 3, 200, 150),
-        PHD: new BaseClass(GetSpriteLocation(mdBase, "MD-PHD"), 26f, 4, 2000, 200));
+        TAFE: new BaseClass(medSprite, 1f, 0, 500, 25),
+        DIPL: new BaseClass(medSprite, 1f, 1, 300, 50),
+        BACH: new BaseClass(medSprite, 4f, 2, 1000, 100),
+        HONR: new BaseClass(medSprite, 11f, 3, 200, 150),
+        PHD: new BaseClass(medSprite, 26f, 4, 2000, 200));
 
     public static ClassManager Teaching = new ClassManager(
         NAME: "Teaching",
         ACRO: "ART",
-        TAFE: new BaseClass(GetSpriteLocation(teBase, "TE-TAFE"), 1f, 0, 500, 25),
-        DIPL: new BaseClass(GetSpriteLocation(teBase, "TE-DIPL"), 4f, 1, 50, 50),
-        BACH: new BaseClass(GetSpriteLocation(teBase, "TE-BACH"), 5f, 2, 100, 100),
-        HONR: new BaseClass(GetSpriteLocation(teBase, "TE-HONR"), 5f, 3, 100, 150),
-        PHD: new BaseClass(GetSpriteLocation(teBase, "TE-PHD"), 5f, 4, 250, 200));
-
-    // Internal tools
-    private static string GetSpriteLocation(string cBase, string spriteName)
-    {
-        return string.Concat(cBase, spriteName);
-    }
+        TAFE: new BaseClass(teaSprite, 1f, 0, 500, 25),
+        DIPL: new BaseClass(teaSprite, 4f, 1, 50, 50),
+        BACH: new BaseClass(teaSprite, 5f, 2, 100, 100),
+        HONR: new BaseClass(teaSprite, 5f, 3, 100, 150),
+        PHD: new BaseClass(teaSprite, 5f, 4, 250, 200));
 }

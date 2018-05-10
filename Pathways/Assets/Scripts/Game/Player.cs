@@ -7,6 +7,7 @@ public class Player : MonoBehaviour {
 
     // UI Elements
     [Header("UI Elements")]
+    public Text Course;
     public Text Credits;
     public Text Debt;
 
@@ -15,6 +16,9 @@ public class Player : MonoBehaviour {
     public AudioClip moneySound;
     public AudioClip creditSound;
     private AudioSource audioSource;
+
+    [Header("DEBUG Purposes")]
+    public bool hasWon = false;
 
     private float playerSpeed = 120f;
     private float rotateSpeed = 120f;
@@ -32,8 +36,6 @@ public class Player : MonoBehaviour {
     private bool canMove = true;
     internal PlayerChoice _playerChoice;
 
-    [Header("DEBUG")]
-    public bool hasWon = false;
 
     void Start()
     {
@@ -62,66 +64,38 @@ public class Player : MonoBehaviour {
             if (playerName == "Player 1")
             {
                 // Rotation
-                if (Input.GetKey(KeyCode.A))
-                {
-                    transform.Rotate(new Vector3(0, 0, 1) * Time.deltaTime * rotateSpeed, Space.World);
-                }
-                if (Input.GetKey(KeyCode.D))
-                {
-                    transform.Rotate(new Vector3(0, 0, -1) * Time.deltaTime * rotateSpeed, Space.World);
-                }
+                if (Input.GetKey(KeyCode.A)) transform.Rotate(new Vector3(0, 0, 1) * Time.deltaTime * rotateSpeed, Space.World);
+                if (Input.GetKey(KeyCode.D)) transform.Rotate(new Vector3(0, 0, -1) * Time.deltaTime * rotateSpeed, Space.World);
 
                 // Movement
-                if (Input.GetKey(KeyCode.W))
-                {
-                    Rigidbody.velocity = transform.up * playerSpeed * Time.deltaTime;
-                }
-                else
-                {
-                    Rigidbody.velocity = Vector2.zero;
-                }
-
-                if (Input.GetKey(KeyCode.S))
-                {
-                    Rigidbody.velocity = -transform.up * playerSpeed * Time.deltaTime;
-                }
+                if (Input.GetKey(KeyCode.S)) Rigidbody.velocity = -transform.up * playerSpeed * Time.deltaTime;
+                if (Input.GetKey(KeyCode.W)) Rigidbody.velocity = transform.up * playerSpeed * Time.deltaTime;
+                else Rigidbody.velocity = Vector2.zero;
             }
+
             else if (playerName == "Player 2")
             {
                 // Rotation
-                if (Input.GetKey(KeyCode.LeftArrow))
-                    transform.Rotate(new Vector3(0, 0, 1) * Time.deltaTime * rotateSpeed, Space.World);
+                if (Input.GetKey(KeyCode.LeftArrow)) transform.Rotate(new Vector3(0, 0, 1) * Time.deltaTime * rotateSpeed, Space.World);
+                if (Input.GetKey(KeyCode.RightArrow)) transform.Rotate(new Vector3(0, 0, -1) * Time.deltaTime * rotateSpeed, Space.World);
 
-                if (Input.GetKey(KeyCode.RightArrow))
-                    transform.Rotate(new Vector3(0, 0, -1) * Time.deltaTime * rotateSpeed, Space.World);
-
-                // Forward Movement
-                if (Input.GetKey(KeyCode.UpArrow))
-                {
-                    Rigidbody.velocity = transform.up * playerSpeed * Time.deltaTime;
-                }
-                else
-                {
-                    Rigidbody.velocity = Vector2.zero;
-                }
-
-                // Backwards 
-                if (Input.GetKey(KeyCode.DownArrow))
-                {
-                    Rigidbody.velocity = -transform.up * playerSpeed * Time.deltaTime;
-                }
+                // Movement
+                if (Input.GetKey(KeyCode.DownArrow)) Rigidbody.velocity = -transform.up * playerSpeed * Time.deltaTime;
+                if (Input.GetKey(KeyCode.UpArrow)) Rigidbody.velocity = transform.up * playerSpeed * Time.deltaTime;
+                else Rigidbody.velocity = Vector2.zero;
             }
         }
+
         else
         {
             // Stop player movement
             Rigidbody.velocity = Vector2.zero;
         }
 
-        checkWon();
+        CheckIfWon();
     }
 
-    // Hovering over a token
+    // Token Collection
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Consume Unit Credits
@@ -131,9 +105,12 @@ public class Player : MonoBehaviour {
             Destroy(other.gameObject);
 
             // Decrement unit credits required
-            unitCreditsRequired -= 10;
+            unitCreditsRequired -= 25;
             audioSource.PlayOneShot(creditSound);
             Credits.text = "Credits Needed: " + unitCreditsRequired.ToString();
+
+            // Chech to see if user has upgraded their degree
+            CheckDegree();
         }
 
         // Consume job applications
@@ -152,10 +129,89 @@ public class Player : MonoBehaviour {
     }
 
     // Game Manager Checks
-    private void checkWon()
+    private void CheckDegree()
     {
+        // Check to see if the player has recieved all their units
+        if (unitCreditsRequired <= 0)
+        {
+            // Update Player Level. Also check to see if they have completed their degree
+            if (playerLevel < 4) playerLevel++;
+            else CheckIfWon();
+
+            // Update Required Unit Credits with degree requirements
+            UpdateRequiredUnitCredits(playerLevel);
+
+            // Change UI status of Player degree
+            UpdateDegree(playerLevel);
+        }
+    }
+    private void CheckIfWon()
+    {
+        // Does the player have no debt?
         if (playerDebt <= 0) hasWon = true;
-        if (playerLevel == 4 && unitCreditsRequired < 0) hasWon = true;
+
+        // Does the player have a PHD and all necessary credits?
+        if (playerLevel == 4 && unitCreditsRequired <= 0) hasWon = true;
+    }
+    private void UpdateRequiredUnitCredits(int _playerLevel)
+    {
+        int newCreditRequirements = 0;
+
+        // Get Unit Credit Requirements for the next degree level
+        switch (_playerLevel)
+        {
+            // DIPLOMA
+            case 1:
+                newCreditRequirements = _playerClass._DIPL._creditsReq;
+                break;
+
+            // BACHELORS
+            case 2:
+                newCreditRequirements = _playerClass._BACH._creditsReq;
+                break;
+
+            // HONORS
+            case 3:
+                newCreditRequirements = _playerClass._HONR._creditsReq;
+                break;
+
+            // PHD
+            case 4:
+                newCreditRequirements = _playerClass._PHD._creditsReq;
+                break;
+        }
+
+        unitCreditsRequired += newCreditRequirements;
+
+        // Update UI to reflect new requirements
+        Credits.text = "Credits Needed: " + unitCreditsRequired;
+    }
+    private void UpdateDegree(int _playerLevel)
+    {
+        switch (_playerLevel)
+        {
+            case 1:
+                Course.text = "DIPLOMA";
+                playerDebt += _playerClass._DIPL._debtAdd;
+                break;
+
+            case 2:
+                Course.text = "BACHELORS";
+                playerDebt += _playerClass._BACH._debtAdd;
+                break;
+
+            case 3:
+                Course.text = "HONORS";
+                playerDebt += _playerClass._HONR._debtAdd;
+                break;
+
+            case 4:
+                Course.text = "PHD";
+                playerDebt += _playerClass._PHD._debtAdd;
+                break;
+        }
+
+        Debt.text = "Debt: " + playerDebt.ToString();
     }
 
     // Internal Tools
@@ -217,18 +273,6 @@ public class Player : MonoBehaviour {
         playerSpeed = playerSpeed * _playerClass._TAFE._speed;                              // Speed
         playerDebt = _playerClass._TAFE._debtAdd;                                           // Debt
         unitCreditsRequired = _playerClass._TAFE._creditsReq;                               // Required Unit Scores
-    }
-    private string LoadPlayerSprite()
-    {
-        switch (playerLevel)
-        {
-            case 0: return _playerClass._TAFE._spriteLocation;
-            case 1: return _playerClass._DIPL._spriteLocation;
-            case 2: return _playerClass._BACH._spriteLocation;
-            case 3: return _playerClass._HONR._spriteLocation;
-            case 4: return _playerClass._PHD._spriteLocation;
-            default: return _playerClass._TAFE._spriteLocation;
-        }
     }
     IEnumerator FreezePlayer()
     {

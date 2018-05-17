@@ -339,6 +339,26 @@ Prefab:
       propertyPath: Course
       value: 
       objectReference: {fileID: 979132097}
+    - target: {fileID: 114352935658307068, guid: 9def2d30bf188384f8db690c33e8fde0,
+        type: 2}
+      propertyPath: controller.Course
+      value: 
+      objectReference: {fileID: 979132097}
+    - target: {fileID: 114352935658307068, guid: 9def2d30bf188384f8db690c33e8fde0,
+        type: 2}
+      propertyPath: controller.Credits
+      value: 
+      objectReference: {fileID: 251940351}
+    - target: {fileID: 114352935658307068, guid: 9def2d30bf188384f8db690c33e8fde0,
+        type: 2}
+      propertyPath: controller.Debt
+      value: 
+      objectReference: {fileID: 2023114901}
+    - target: {fileID: 114352935658307068, guid: 9def2d30bf188384f8db690c33e8fde0,
+        type: 2}
+      propertyPath: controller.hasWon
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
   m_ParentPrefab: {fileID: 100100000, guid: 9def2d30bf188384f8db690c33e8fde0, type: 2}
@@ -753,6 +773,21 @@ Prefab:
       propertyPath: Course
       value: 
       objectReference: {fileID: 1455526093}
+    - target: {fileID: 114352935658307068, guid: 9def2d30bf188384f8db690c33e8fde0,
+        type: 2}
+      propertyPath: controller.Course
+      value: 
+      objectReference: {fileID: 1455526093}
+    - target: {fileID: 114352935658307068, guid: 9def2d30bf188384f8db690c33e8fde0,
+        type: 2}
+      propertyPath: controller.Credits
+      value: 
+      objectReference: {fileID: 1291887089}
+    - target: {fileID: 114352935658307068, guid: 9def2d30bf188384f8db690c33e8fde0,
+        type: 2}
+      propertyPath: controller.Debt
+      value: 
+      objectReference: {fileID: 118010301}
     m_RemovedComponents:
     - {fileID: 0}
   m_ParentPrefab: {fileID: 100100000, guid: 9def2d30bf188384f8db690c33e8fde0, type: 2}
@@ -1302,12 +1337,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a87526d807863ce48a97354b8eb6f494, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Course: {fileID: 979132097}
-  Credits: {fileID: 1291887089}
-  Debt: {fileID: 118010301}
   moneySound: {fileID: 8300000, guid: 0676dff31cfa53846900d4d1d0549921, type: 3}
   creditSound: {fileID: 8300000, guid: c0175b0935de2984fb08d8905073cd08, type: 3}
-  hasWon: 0
+  controller:
+    Course: {fileID: 979132097}
+    Credits: {fileID: 251940351}
+    Debt: {fileID: 2023114901}
+    hasWon: 1
 --- !u!82 &521857007
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4148,12 +4184,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a87526d807863ce48a97354b8eb6f494, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Course: {fileID: 1455526093}
-  Credits: {fileID: 251940351}
-  Debt: {fileID: 2023114901}
   moneySound: {fileID: 8300000, guid: ff7374bd903fcd04abb21db784dbea44, type: 3}
   creditSound: {fileID: 8300000, guid: c0175b0935de2984fb08d8905073cd08, type: 3}
-  hasWon: 0
+  controller:
+    Course: {fileID: 1455526093}
+    Credits: {fileID: 1291887089}
+    Debt: {fileID: 118010301}
+    hasWon: 0
 --- !u!68 &2019104669
 EdgeCollider2D:
   m_ObjectHideFlags: 0

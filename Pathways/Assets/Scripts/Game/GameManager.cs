@@ -45,11 +45,11 @@ public class GameManager : MonoBehaviour {
     private void GameWatcher()
     {
         // Check if either player has won
-        if (p1Object.hasWon || p2Object.hasWon)
+        if (p1Object.controller.hasWon || p2Object.controller.hasWon)
         {
             // Record winner
-            if (p1Object.hasWon) winningPlayer = p1Object;
-            else if (p2Object.hasWon) winningPlayer = p2Object;
+            if (p1Object.controller.hasWon) winningPlayer = p1Object;
+            else if (p2Object.controller.hasWon) winningPlayer = p2Object;
 
             EndGame();
         }

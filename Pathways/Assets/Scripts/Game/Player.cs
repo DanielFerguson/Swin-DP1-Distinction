@@ -3,13 +3,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 
+
+
 public class Player : MonoBehaviour {
 
     // UI Elements
-    [Header("UI Elements")]
-    public Text Course;
-    public Text Credits;
-    public Text Debt;
+//    [Header("UI Elements")]
+//    public Text Course;
+//    public Text Credits;
+//    public Text Debt;
 
     // Sound Elements
     [Header("Sound Elements")]
@@ -17,24 +19,30 @@ public class Player : MonoBehaviour {
     public AudioClip creditSound;
     private AudioSource audioSource;
 
-    [Header("DEBUG Purposes")]
-    public bool hasWon = false;
+ //   [Header("DEBUG Purposes")]
+  //  public bool hasWon = false;
 
-    private float playerSpeed = 120f;
-    private float rotateSpeed = 120f;
+  //  private float playerSpeed = 120f;
+  //  private float rotateSpeed = 120f;
 
     // GameObject Components
     private Rigidbody2D Rigidbody;
     private SpriteRenderer Renderer;
 
     // GameObject Variables
-    private Class.ClassManager _playerClass;
-    private string playerName;
-    private int playerLevel = 0;
-    private int playerDebt;
-    private int unitCreditsRequired;
-    private bool canMove = true;
-    internal PlayerChoice _playerChoice;
+
+    /*
+private Class.ClassManager _playerClass;
+private string playerName;
+private int playerLevel = 0;
+private int playerDebt;
+private int unitCreditsRequired;
+private bool canMove = true;
+internal PlayerChoice _playerChoice;
+*/
+
+    [SerializeField]
+    public PlayerLogicAbstraction controller;
 
 
     void Start()
@@ -46,42 +54,46 @@ public class Player : MonoBehaviour {
         // Sounds
         audioSource = GetComponent<AudioSource>();
 
+        controller = new PlayerLogicAbstraction(transform.name);
+
         // Find object name
-        playerName = transform.name;
+       
 
         // Load selected character choice & class
-        LoadPlayerChoice();
+        controller.LoadPlayerChoice();
 
         // Load selected class attributes
-        SetupPlayer();
+        controller.SetupPlayer();
 
-        hasWon = false;
+        Renderer.sprite = Resources.Load<Sprite>(controller.PlayerClass._TAFE._spriteLocation);       // Sprite
+
+        controller.hasWon = false;
     }
     void Update()
     {
-        if (canMove)
+        if (controller.CanMove)
         {
-            if (playerName == "Player 1")
+            if (controller.PlayerName == "Player 1")
             {
                 // Rotation
-                if (Input.GetKey(KeyCode.A)) transform.Rotate(new Vector3(0, 0, 1) * Time.deltaTime * rotateSpeed, Space.World);
-                if (Input.GetKey(KeyCode.D)) transform.Rotate(new Vector3(0, 0, -1) * Time.deltaTime * rotateSpeed, Space.World);
+                if (Input.GetKey(KeyCode.A)) transform.Rotate(new Vector3(0, 0, 1) * Time.deltaTime * controller.RotateSpeed, Space.World);
+                if (Input.GetKey(KeyCode.D)) transform.Rotate(new Vector3(0, 0, -1) * Time.deltaTime * controller.RotateSpeed, Space.World);
 
                 // Movement
-                if (Input.GetKey(KeyCode.S)) Rigidbody.velocity = -transform.up * playerSpeed * Time.deltaTime;
-                if (Input.GetKey(KeyCode.W)) Rigidbody.velocity = transform.up * playerSpeed * Time.deltaTime;
+                if (Input.GetKey(KeyCode.S)) Rigidbody.velocity = -transform.up * controller.PlayerSpeed * Time.deltaTime;
+                if (Input.GetKey(KeyCode.W)) Rigidbody.velocity = transform.up * controller.PlayerSpeed * Time.deltaTime;
                 else Rigidbody.velocity = Vector2.zero;
             }
 
-            else if (playerName == "Player 2")
+            else if (controller.PlayerName == "Player 2")
             {
                 // Rotation
-                if (Input.GetKey(KeyCode.LeftArrow)) transform.Rotate(new Vector3(0, 0, 1) * Time.deltaTime * rotateSpeed, Space.World);
-                if (Input.GetKey(KeyCode.RightArrow)) transform.Rotate(new Vector3(0, 0, -1) * Time.deltaTime * rotateSpeed, Space.World);
+                if (Input.GetKey(KeyCode.LeftArrow)) transform.Rotate(new Vector3(0, 0, 1) * Time.deltaTime * controller.RotateSpeed, Space.World);
+                if (Input.GetKey(KeyCode.RightArrow)) transform.Rotate(new Vector3(0, 0, -1) * Time.deltaTime * controller.RotateSpeed, Space.World);
 
                 // Movement
-                if (Input.GetKey(KeyCode.DownArrow)) Rigidbody.velocity = -transform.up * playerSpeed * Time.deltaTime;
-                if (Input.GetKey(KeyCode.UpArrow)) Rigidbody.velocity = transform.up * playerSpeed * Time.deltaTime;
+                if (Input.GetKey(KeyCode.DownArrow)) Rigidbody.velocity = -transform.up * controller.PlayerSpeed * Time.deltaTime;
+                if (Input.GetKey(KeyCode.UpArrow)) Rigidbody.velocity = transform.up * controller.PlayerSpeed * Time.deltaTime;
                 else Rigidbody.velocity = Vector2.zero;
             }
         }
@@ -92,7 +104,7 @@ public class Player : MonoBehaviour {
             Rigidbody.velocity = Vector2.zero;
         }
 
-        CheckIfWon();
+        controller.CheckIfWon();
     }
 
     // Token Collection
@@ -105,12 +117,13 @@ public class Player : MonoBehaviour {
             Destroy(other.gameObject);
 
             // Decrement unit credits required
-            unitCreditsRequired -= 25;
+            controller.UnitCreditsRequired -= 25;
+            Debug.Log(controller.UnitCreditsRequired);
             audioSource.PlayOneShot(creditSound);
-            Credits.text = "Credits Needed: " + unitCreditsRequired.ToString();
+            controller.Credits.text = "Credits Needed: " + controller.UnitCreditsRequired.ToString();
 
             // Chech to see if user has upgraded their degree
-            CheckDegree();
+            controller.CheckDegree();
         }
 
         // Consume job applications
@@ -120,14 +133,16 @@ public class Player : MonoBehaviour {
             Destroy(other.gameObject);
 
             // Reduce debt
-            playerDebt -= 100;
-            Debt.text = "Debt: $" + playerDebt.ToString();
+            controller.PlayerDebt -= 100;
+            Debug.Log(controller.PlayerDebt);
+            controller.Debt.text = "Debt: $" + controller.PlayerDebt.ToString();
 
             // Freeze player in position for two seconds
             StartCoroutine("FreezePlayer");
         }
     }
 
+    /*
     // Game Manager Checks
     private void CheckDegree()
     {
@@ -274,11 +289,13 @@ public class Player : MonoBehaviour {
         playerDebt = _playerClass._TAFE._debtAdd;                                           // Debt
         unitCreditsRequired = _playerClass._TAFE._creditsReq;                               // Required Unit Scores
     }
+
+    */
     IEnumerator FreezePlayer()
     {
-        canMove = false;
+        controller.CanMove = false;
         yield return new WaitForSeconds(JobsHandler.WaitTime);
-        canMove = true;
+        controller.CanMove = true;
         audioSource.PlayOneShot(moneySound);
     }
 }

@@ -10,10 +10,12 @@ public class TokenManager : MonoBehaviour {
     [Header("Token Prefabs")]
     public GameObject UnitCredit;
     public GameObject JobApplication;
+    public GameObject Enemy;
 
     [Header("Token Settings")]
     public float creditSpawnSpeed = 5f;
     public float jobSpawnSpeed = 1.5f;
+    public float enemySpawnSpeed = 5f;
 
     private float mapHeight = 0f;
     private float mapWidth = 0f;
@@ -28,6 +30,7 @@ public class TokenManager : MonoBehaviour {
         // Invoke asset creation
         InvokeRepeating("GenerateUnitCredits", 0, creditSpawnSpeed);
         InvokeRepeating("GenerateJobApplications", 0, creditSpawnSpeed);
+        InvokeRepeating("GenerateEnemies", 0, enemySpawnSpeed);
     }
 
     private Vector3 GenerateRandomLocation()
@@ -37,6 +40,14 @@ public class TokenManager : MonoBehaviour {
 
         return new Vector3(x, y, 0);
     }
+
+    private Vector3 GenerateRandomEnemyLocation() {
+
+        int x = Random.Range(-(Mathf.RoundToInt(mapWidth) / 2), Mathf.RoundToInt(mapWidth) / 2);
+
+        return new Vector3(x, mapHeight*0.5f, 0);
+    }
+
     void GenerateUnitCredits()
     {
         Instantiate(UnitCredit, GenerateRandomLocation(), Quaternion.identity);
@@ -44,5 +55,9 @@ public class TokenManager : MonoBehaviour {
     void GenerateJobApplications()
     {
         Instantiate(JobApplication, GenerateRandomLocation(), Quaternion.identity);
+    }
+    void GenerateEnemies()
+    {
+        Instantiate(Enemy, GenerateRandomEnemyLocation(), Quaternion.identity);
     }
 }

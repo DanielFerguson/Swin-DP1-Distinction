@@ -1,0 +1,10 @@
+{
+    "name": "NewAssembly",
+    "references": [
+        "AssemblyGen"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

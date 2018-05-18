@@ -125,6 +125,12 @@ public class Player : MonoBehaviour {
 
             // Freeze player in position for two seconds
             StartCoroutine("FreezePlayer");
+        } else if (other.gameObject.tag == "Enemy") {
+            Destroy(other.gameObject);
+         
+            playerDebt += 100;
+            audioSource.PlayOneShot(creditSound);
+            Debt.text = "Debt: $" + playerDebt.ToString();
         }
     }
 

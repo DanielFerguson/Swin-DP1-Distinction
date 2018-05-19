@@ -69,7 +69,7 @@ public class Player : MonoBehaviour {
 
                 // Movement
                 if (Input.GetKey(KeyCode.S)) Rigidbody.velocity = -transform.up * playerSpeed * Time.deltaTime;
-                if (Input.GetKey(KeyCode.W)) Rigidbody.velocity = transform.up * playerSpeed * Time.deltaTime;
+                else if (Input.GetKey(KeyCode.W)) Rigidbody.velocity = transform.up * playerSpeed * Time.deltaTime;
                 else Rigidbody.velocity = Vector2.zero;
             }
 
@@ -81,7 +81,7 @@ public class Player : MonoBehaviour {
 
                 // Movement
                 if (Input.GetKey(KeyCode.DownArrow)) Rigidbody.velocity = -transform.up * playerSpeed * Time.deltaTime;
-                if (Input.GetKey(KeyCode.UpArrow)) Rigidbody.velocity = transform.up * playerSpeed * Time.deltaTime;
+                else if (Input.GetKey(KeyCode.UpArrow)) Rigidbody.velocity = transform.up * playerSpeed * Time.deltaTime;
                 else Rigidbody.velocity = Vector2.zero;
             }
         }

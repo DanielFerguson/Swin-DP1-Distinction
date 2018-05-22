@@ -160,7 +160,7 @@ public class Player : MonoBehaviour {
             Destroy(other.gameObject);
 
             // Decrement unit credits required
-            unitCreditsRequired -= 25;
+            UnitCreditDecreament();
             audioSource.PlayOneShot(creditSound);
             Credits.text = "Credits Needed: " + unitCreditsRequired.ToString();
 
@@ -175,7 +175,7 @@ public class Player : MonoBehaviour {
             Destroy(other.gameObject);
 
             // Reduce debt
-            playerDebt -= 100;
+            DebtDecreament();
             Debt.text = "Debt: $" + playerDebt.ToString();
 
             // Freeze player in position for two seconds
@@ -183,8 +183,16 @@ public class Player : MonoBehaviour {
         }
     }
 
+    public void UnitCreditDecreament() {
+        unitCreditsRequired -= 25;
+    }
+
+    public void DebtDecreament() {
+        playerDebt -= 100;
+    }
+
     // Game Manager Checks
-    private void CheckDegree()
+    public void CheckDegree()
     {
         // Check to see if the player has recieved all their units
         if (unitCreditsRequired <= 0)
@@ -200,7 +208,7 @@ public class Player : MonoBehaviour {
             UpdateDegree(playerLevel);
         }
     }
-    private void CheckIfWon()
+    public void CheckIfWon()
     {
         // Does the player have no debt?
         if (playerDebt <= 0) hasWon = true;
@@ -208,7 +216,7 @@ public class Player : MonoBehaviour {
         // Does the player have a PHD and all necessary credits?
         if (playerLevel == 4 && unitCreditsRequired <= 0) hasWon = true;
     }
-    private void UpdateRequiredUnitCredits(int _playerLevel)
+    public void UpdateRequiredUnitCredits(int _playerLevel)
     {
         int newCreditRequirements = 0;
 
@@ -239,34 +247,49 @@ public class Player : MonoBehaviour {
         unitCreditsRequired += newCreditRequirements;
 
         // Update UI to reflect new requirements
-        Credits.text = "Credits Needed: " + unitCreditsRequired;
+        if (Credits!=null) {
+            Credits.text = "Credits Needed: " + unitCreditsRequired;
+        }
     }
-    private void UpdateDegree(int _playerLevel)
+    public void UpdateDegree(int _playerLevel)
     {
         switch (_playerLevel)
         {
             case 1:
-                Course.text = "DIPLOMA";
+                if (Course!=null) {
+                    Course.text = "DIPLOMA";
+                }
                 playerDebt += _playerClass._DIPL._debtAdd;
                 break;
 
             case 2:
-                Course.text = "BACHELORS";
+                if (Course != null)
+                {
+                    Course.text = "BACHELORS";
+                }
                 playerDebt += _playerClass._BACH._debtAdd;
                 break;
 
             case 3:
-                Course.text = "HONORS";
+                if (Course != null)
+                {
+                    Course.text = "HONORS";
+                }
                 playerDebt += _playerClass._HONR._debtAdd;
                 break;
 
             case 4:
-                Course.text = "PHD";
+                if (Course != null)
+                {
+                    Course.text = "PHD";
+                }
                 playerDebt += _playerClass._PHD._debtAdd;
                 break;
         }
 
-        Debt.text = "Debt: " + playerDebt.ToString();
+        if (Debt!=null) {
+            Debt.text = "Debt: " + playerDebt.ToString();
+        }
     }
 
     // Internal Tools
@@ -332,6 +355,7 @@ public class Player : MonoBehaviour {
             unitCreditsRequired = _playerClass._TAFE._creditsReq;                               // Required Unit Scores
         }
         else {
+            _playerClass = Class.Teaching;
             playerLevel = Class.Teaching._TAFE._level;                                            // Level
             playerSpeed = playerSpeed * Class.Teaching._TAFE._speed;                              // Speed
             playerDebt = Class.Teaching._TAFE._debtAdd;                                           // Debt

@@ -20,7 +20,13 @@ public class NewTestScript {
     //    bool testBool=testPlayer.UnitySucks;
     //    Text test=testPlayer.Course;
 
-        Assert.AreEqual(0, testPlayer.playerLevel);
+        Assert.AreEqual(0, testPlayer.PlayerLevel);
+
+ //       Assert.AreEqual("bob", testPlayer.PlayerName);
+
+        Assert.AreEqual(500, testPlayer.PlayerDebt);
+
+        Assert.AreEqual(25, testPlayer.UnitCreditsRequired);
 
     }
 

@@ -30,16 +30,53 @@ public class Player : MonoBehaviour {
     // GameObject Variables
     private Class.ClassManager _playerClass;
     private string playerName;
-    public int playerLevel = 0;
+    private int playerLevel = 0;
     private int playerDebt;
     private int unitCreditsRequired;
     private bool canMove = true;
     internal PlayerChoice _playerChoice;
 
+    public Class.ClassManager PlayerClass{
+        get {
+            return _playerClass;
+        }
+    }
+
+    public string PlayerName
+    {
+        get{
+            return playerName;
+        }
+    }
+
+    public int PlayerLevel
+    {
+        get
+        {
+            return playerLevel;
+        }
+    }
+
+    public int PlayerDebt
+    {
+        get
+        {
+            return playerDebt;
+        }
+    }
+
+    public int UnitCreditsRequired
+    {
+        get
+        {
+            return unitCreditsRequired;
+        }
+    }
+
+
     public void StartPlayer() {
         Start();
     }
-
 
     void Start()
     {
@@ -59,13 +96,9 @@ public class Player : MonoBehaviour {
         }
         // Find object name
 
-        if (transform.name==null)
-        {
+    //    if (transform.name==null) {
             playerName = transform.name;
-        }
-        else {
-            playerName = "Player 1";
-        }
+     //   }
 
         // Load selected character choice & class
         LoadPlayerChoice();
@@ -290,13 +323,21 @@ public class Player : MonoBehaviour {
     }
     private void SetupPlayer()
     {
-        if (GetComponent<SpriteRenderer>() != null) {
+        if (GetComponent<Rigidbody2D>() != null)
+        {
             Renderer.sprite = Resources.Load<Sprite>(_playerClass._TAFE._spriteLocation);       // Sprite
+            playerLevel = _playerClass._TAFE._level;                                            // Level
+            playerSpeed = playerSpeed * _playerClass._TAFE._speed;                              // Speed
+            playerDebt = _playerClass._TAFE._debtAdd;                                           // Debt
+            unitCreditsRequired = _playerClass._TAFE._creditsReq;                               // Required Unit Scores
         }
-        playerLevel = _playerClass._TAFE._level;                                            // Level
-        playerSpeed = playerSpeed * _playerClass._TAFE._speed;                              // Speed
-        playerDebt = _playerClass._TAFE._debtAdd;                                           // Debt
-        unitCreditsRequired = _playerClass._TAFE._creditsReq;                               // Required Unit Scores
+        else {
+            playerLevel = Class.Teaching._TAFE._level;                                            // Level
+            playerSpeed = playerSpeed * Class.Teaching._TAFE._speed;                              // Speed
+            playerDebt = Class.Teaching._TAFE._debtAdd;                                           // Debt
+            unitCreditsRequired = Class.Teaching._TAFE._creditsReq;                               // Required Unit Scores
+        }
+        
     }
     IEnumerator FreezePlayer()
     {

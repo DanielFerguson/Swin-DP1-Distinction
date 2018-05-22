@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Job Application
   - Unit Credits
+  - Enemy
+  - Wall
   layers:
   - Default
   - TransparentFX

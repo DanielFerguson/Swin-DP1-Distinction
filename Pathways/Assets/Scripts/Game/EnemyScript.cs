@@ -18,7 +18,7 @@ public class EnemyScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        transform.Rotate(logic.newDirection() * Time.deltaTime * logic.newRotationSpeed(), Space.World);
+   //     transform.Rotate(logic.newDirection() * Time.deltaTime * logic.newRotationSpeed(), Space.World);
         Rigidbody.velocity = -transform.up * logic.newSpeed() * Time.deltaTime;
 
         
@@ -57,8 +57,7 @@ public class EnemyLogic {
     }
 
     public Vector3 newDirection() {
-        Random.InitState(42312);
-        return new Vector3(0, 0,Random.Range(-1.0f, 1.0f));
+        return new Vector3(0, 0, 1);
     }
 
     public float randomFloat() {

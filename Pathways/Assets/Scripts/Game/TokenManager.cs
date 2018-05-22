@@ -26,10 +26,13 @@ public class TokenManager : MonoBehaviour {
         // Get Map dimentions
         mapHeight = SpawnArea.GetComponent<RectTransform>().rect.height;
         mapWidth = SpawnArea.GetComponent<RectTransform>().rect.width;
-        
+
         // Invoke asset creation
+        Random.InitState(System.Environment.TickCount);
         InvokeRepeating("GenerateUnitCredits", 0, creditSpawnSpeed);
+        Random.InitState(System.Environment.TickCount);
         InvokeRepeating("GenerateJobApplications", 0, creditSpawnSpeed);
+        Random.InitState(System.Environment.TickCount);
         InvokeRepeating("GenerateEnemies", 0, enemySpawnSpeed);
     }
 
@@ -42,6 +45,8 @@ public class TokenManager : MonoBehaviour {
     }
 
     private Vector3 GenerateRandomEnemyLocation() {
+
+        Random.InitState(System.Environment.TickCount);
 
         int x = Random.Range(-(Mathf.RoundToInt(mapWidth) / 2), Mathf.RoundToInt(mapWidth) / 2);
 

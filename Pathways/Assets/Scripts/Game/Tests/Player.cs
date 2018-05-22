@@ -30,27 +30,42 @@ public class Player : MonoBehaviour {
     // GameObject Variables
     private Class.ClassManager _playerClass;
     private string playerName;
-    private int playerLevel = 0;
+    public int playerLevel = 0;
     private int playerDebt;
     private int unitCreditsRequired;
     private bool canMove = true;
     internal PlayerChoice _playerChoice;
 
     public void StartPlayer() {
-        this.Start();
+        Start();
     }
+
 
     void Start()
     {
         // Fetch required components attached to GameObject
-        Rigidbody = GetComponent<Rigidbody2D>();
-        Renderer = GetComponent<SpriteRenderer>();
 
+        if (GetComponent<Rigidbody2D>()!=null) {
+            Rigidbody = GetComponent<Rigidbody2D>();
+        }
+
+        if (GetComponent<SpriteRenderer>()!=null) {
+            Renderer = GetComponent<SpriteRenderer>();
+        }
         // Sounds
-        audioSource = GetComponent<AudioSource>();
 
+        if (GetComponent<AudioSource>()!=null) {
+            audioSource = GetComponent<AudioSource>();
+        }
         // Find object name
-        playerName = transform.name;
+
+        if (transform.name==null)
+        {
+            playerName = transform.name;
+        }
+        else {
+            playerName = "Player 1";
+        }
 
         // Load selected character choice & class
         LoadPlayerChoice();
@@ -73,7 +88,11 @@ public class Player : MonoBehaviour {
                 // Movement
                 if (Input.GetKey(KeyCode.S)) Rigidbody.velocity = -transform.up * playerSpeed * Time.deltaTime;
                 else if (Input.GetKey(KeyCode.W)) Rigidbody.velocity = transform.up * playerSpeed * Time.deltaTime;
-                else Rigidbody.velocity = Vector2.zero;
+                else {
+                    if (Rigidbody!=null) {
+                        Rigidbody.velocity = Vector2.zero;
+                    }
+                }
             }
 
             else if (playerName == "Player 2")
@@ -132,7 +151,7 @@ public class Player : MonoBehaviour {
     }
 
     // Game Manager Checks
-    public void CheckDegree()
+    private void CheckDegree()
     {
         // Check to see if the player has recieved all their units
         if (unitCreditsRequired <= 0)
@@ -271,7 +290,9 @@ public class Player : MonoBehaviour {
     }
     private void SetupPlayer()
     {
-        Renderer.sprite = Resources.Load<Sprite>(_playerClass._TAFE._spriteLocation);       // Sprite
+        if (GetComponent<SpriteRenderer>() != null) {
+            Renderer.sprite = Resources.Load<Sprite>(_playerClass._TAFE._spriteLocation);       // Sprite
+        }
         playerLevel = _playerClass._TAFE._level;                                            // Level
         playerSpeed = playerSpeed * _playerClass._TAFE._speed;                              // Speed
         playerDebt = _playerClass._TAFE._debtAdd;                                           // Debt
@@ -284,10 +305,4 @@ public class Player : MonoBehaviour {
         canMove = true;
         audioSource.PlayOneShot(moneySound);
     }
-}
-public class JobsHandler : MonoBehaviour
-{
-
-    [Header("Jobs Quick Actions")]
-    public static float WaitTime = 0.5f;
 }

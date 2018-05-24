@@ -4,10 +4,12 @@ using UnityEngine.UI;
 using NUnit.Framework;
 using System.Collections;
 
-public class Iteration2Tests {
+public class Iteration2Tests
+{
 
     [Test]
-    public void TestPlayerStartStats() {
+    public void TestPlayerStartStats()
+    {
 
         var gameObject = new GameObject();
 
@@ -99,7 +101,8 @@ public class Iteration2Tests {
 
         testPlayer.StartPlayer();
 
-        for (int i=0; i<5; i++) {
+        for (int i = 0; i < 5; i++)
+        {
             testPlayer.DebtDecreament();
         }
         testPlayer.CheckIfWon();

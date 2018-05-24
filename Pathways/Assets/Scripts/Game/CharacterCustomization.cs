@@ -65,7 +65,7 @@ public class CharacterCustomization : MonoBehaviour {
             }
             if (Input.GetKeyDown(KeyCode.D))
             {
-                player1Choice = PlayerChoice.Accounting;
+                player1Choice = PlayerChoice.Medical;
                 ResetPlayerSelection(1);
                 dImage.color = selected;
             }

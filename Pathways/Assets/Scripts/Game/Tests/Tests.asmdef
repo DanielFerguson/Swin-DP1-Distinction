@@ -1,14 +1,22 @@
 {
     "name": "Tests",
     "references": [
+<<<<<<< HEAD
         "NewAssembly"
+=======
+        "game"
+>>>>>>> master
     ],
     "optionalUnityReferences": [
         "TestAssemblies"
     ],
+<<<<<<< HEAD
     "includePlatforms": [
         "Editor"
     ],
+=======
+    "includePlatforms": [],
+>>>>>>> master
     "excludePlatforms": [],
     "allowUnsafeCode": false
 }

@@ -44,7 +44,7 @@ public class Iteration3TDDTests
 
         Rigidbody enemybody= enemy.GetComponent<Rigidbody>();
         
-
+        //test that the enemy has a velocity
         Assert.NotNull(enemybody.velocity);
     }
 }

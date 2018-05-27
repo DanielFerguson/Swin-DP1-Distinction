@@ -9,8 +9,21 @@ public class Iteration3TDDTests
     [Test]
     public void TDDInstantiateEnemy()
     {
-        // Responsibiltiy: Dan
-        Assert.False(false);
+        var enemyGameObject = new GameObject();
+
+        enemyGameObject.AddComponent<EnemyScript>();
+        EnemyScript enemy = enemyGameObject.GetComponent<EnemyScript>();
+
+        enemy.Start();
+
+        // Test that enemy has EnemyLogic Component
+        Assert.NotNull(enemy.Logic);
+
+        // Test that the enemy is spawned
+        Assert.NotNull(enemy.transform.position);
+
+        // Test that the Enemy object is enabled / active
+        Assert.IsTrue(enemy.enabled);
     }
 
     [Test]

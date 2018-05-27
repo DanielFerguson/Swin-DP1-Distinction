@@ -5,11 +5,26 @@ using UnityEngine;
 public class EnemyScript : MonoBehaviour {
 
     private EnemyLogic logic;
+    private Rigidbody2D Rigidbody;
 
-    public Rigidbody2D Rigidbody;
+    public EnemyLogic Logic
+    {
+        get
+        {
+            return logic;
+        }
+    }
+    public Rigidbody2D Rigid
+    {
+        get
+        {
+            return Rigidbody;
+        }
+    }
+
 
     // Use this for initialization
-    void Start () {
+    public void Start () {
         logic = new EnemyLogic();
 
         Rigidbody = GetComponent<Rigidbody2D>();

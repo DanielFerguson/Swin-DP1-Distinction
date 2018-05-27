@@ -3,7 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour
+{
 
     // UI Elements
     [Header("UI Elements")]
@@ -36,18 +37,76 @@ public class Player : MonoBehaviour {
     private bool canMove = true;
     internal PlayerChoice _playerChoice;
 
+    public Class.ClassManager PlayerClass
+    {
+        get
+        {
+            return _playerClass;
+        }
+    }
+
+    public string PlayerName
+    {
+        get
+        {
+            return playerName;
+        }
+    }
+
+    public int PlayerLevel
+    {
+        get
+        {
+            return playerLevel;
+        }
+    }
+
+    public int PlayerDebt
+    {
+        get
+        {
+            return playerDebt;
+        }
+    }
+
+    public int UnitCreditsRequired
+    {
+        get
+        {
+            return unitCreditsRequired;
+        }
+    }
+
+
+    public void StartPlayer()
+    {
+        Start();
+    }
 
     void Start()
     {
         // Fetch required components attached to GameObject
-        Rigidbody = GetComponent<Rigidbody2D>();
-        Renderer = GetComponent<SpriteRenderer>();
 
+        if (GetComponent<Rigidbody2D>() != null)
+        {
+            Rigidbody = GetComponent<Rigidbody2D>();
+        }
+
+        if (GetComponent<SpriteRenderer>() != null)
+        {
+            Renderer = GetComponent<SpriteRenderer>();
+        }
         // Sounds
-        audioSource = GetComponent<AudioSource>();
 
+        if (GetComponent<AudioSource>() != null)
+        {
+            audioSource = GetComponent<AudioSource>();
+        }
         // Find object name
+
+        //    if (transform.name==null) {
         playerName = transform.name;
+        //   }
 
         // Load selected character choice & class
         LoadPlayerChoice();
@@ -57,7 +116,7 @@ public class Player : MonoBehaviour {
 
         hasWon = false;
     }
-    void FixedUpdate()
+    void Update()
     {
         if (canMove)
         {
@@ -70,7 +129,13 @@ public class Player : MonoBehaviour {
                 // Movement
                 if (Input.GetKey(KeyCode.S)) Rigidbody.velocity = -transform.up * playerSpeed * Time.deltaTime;
                 else if (Input.GetKey(KeyCode.W)) Rigidbody.velocity = transform.up * playerSpeed * Time.deltaTime;
-                else Rigidbody.velocity = Vector2.zero;
+                else
+                {
+                    if (Rigidbody != null)
+                    {
+                        Rigidbody.velocity = Vector2.zero;
+                    }
+                }
             }
 
             else if (playerName == "Player 2")
@@ -105,7 +170,7 @@ public class Player : MonoBehaviour {
             Destroy(other.gameObject);
 
             // Decrement unit credits required
-            unitCreditsRequired -= 25;
+            UnitCreditDecreament();
             audioSource.PlayOneShot(creditSound);
             Credits.text = "Credits Needed: " + unitCreditsRequired.ToString();
 
@@ -120,22 +185,26 @@ public class Player : MonoBehaviour {
             Destroy(other.gameObject);
 
             // Reduce debt
-            playerDebt -= 100;
+            DebtDecreament();
             Debt.text = "Debt: $" + playerDebt.ToString();
 
             // Freeze player in position for two seconds
             StartCoroutine("FreezePlayer");
-        } else if (other.gameObject.tag == "Enemy") {
-            Destroy(other.gameObject);
-         
-            playerDebt += 100;
-            audioSource.PlayOneShot(creditSound);
-            Debt.text = "Debt: $" + playerDebt.ToString();
         }
     }
 
+    public void UnitCreditDecreament()
+    {
+        unitCreditsRequired -= 25;
+    }
+
+    public void DebtDecreament()
+    {
+        playerDebt -= 100;
+    }
+
     // Game Manager Checks
-    private void CheckDegree()
+    public void CheckDegree()
     {
         // Check to see if the player has recieved all their units
         if (unitCreditsRequired <= 0)
@@ -151,7 +220,7 @@ public class Player : MonoBehaviour {
             UpdateDegree(playerLevel);
         }
     }
-    private void CheckIfWon()
+    public void CheckIfWon()
     {
         // Does the player have no debt?
         if (playerDebt <= 0) hasWon = true;
@@ -159,7 +228,7 @@ public class Player : MonoBehaviour {
         // Does the player have a PHD and all necessary credits?
         if (playerLevel == 4 && unitCreditsRequired <= 0) hasWon = true;
     }
-    private void UpdateRequiredUnitCredits(int _playerLevel)
+    public void UpdateRequiredUnitCredits(int _playerLevel)
     {
         int newCreditRequirements = 0;
 
@@ -190,34 +259,52 @@ public class Player : MonoBehaviour {
         unitCreditsRequired += newCreditRequirements;
 
         // Update UI to reflect new requirements
-        Credits.text = "Credits Needed: " + unitCreditsRequired;
+        if (Credits != null)
+        {
+            Credits.text = "Credits Needed: " + unitCreditsRequired;
+        }
     }
-    private void UpdateDegree(int _playerLevel)
+    public void UpdateDegree(int _playerLevel)
     {
         switch (_playerLevel)
         {
             case 1:
-                Course.text = "DIPLOMA";
+                if (Course != null)
+                {
+                    Course.text = "DIPLOMA";
+                }
                 playerDebt += _playerClass._DIPL._debtAdd;
                 break;
 
             case 2:
-                Course.text = "BACHELORS";
+                if (Course != null)
+                {
+                    Course.text = "BACHELORS";
+                }
                 playerDebt += _playerClass._BACH._debtAdd;
                 break;
 
             case 3:
-                Course.text = "HONORS";
+                if (Course != null)
+                {
+                    Course.text = "HONORS";
+                }
                 playerDebt += _playerClass._HONR._debtAdd;
                 break;
 
             case 4:
-                Course.text = "PHD";
+                if (Course != null)
+                {
+                    Course.text = "PHD";
+                }
                 playerDebt += _playerClass._PHD._debtAdd;
                 break;
         }
 
-        Debt.text = "Debt: " + playerDebt.ToString();
+        if (Debt != null)
+        {
+            Debt.text = "Debt: " + playerDebt.ToString();
+        }
     }
 
     // Internal Tools
@@ -274,11 +361,23 @@ public class Player : MonoBehaviour {
     }
     private void SetupPlayer()
     {
-        Renderer.sprite = Resources.Load<Sprite>(_playerClass._TAFE._spriteLocation);       // Sprite
-        playerLevel = _playerClass._TAFE._level;                                            // Level
-        playerSpeed = playerSpeed * _playerClass._TAFE._speed;                              // Speed
-        playerDebt = _playerClass._TAFE._debtAdd;                                           // Debt
-        unitCreditsRequired = _playerClass._TAFE._creditsReq;                               // Required Unit Scores
+        if (GetComponent<Rigidbody2D>() != null)
+        {
+            Renderer.sprite = Resources.Load<Sprite>(_playerClass._TAFE._spriteLocation);       // Sprite
+            playerLevel = _playerClass._TAFE._level;                                            // Level
+            playerSpeed = playerSpeed * _playerClass._TAFE._speed;                              // Speed
+            playerDebt = _playerClass._TAFE._debtAdd;                                           // Debt
+            unitCreditsRequired = _playerClass._TAFE._creditsReq;                               // Required Unit Scores
+        }
+        else
+        {
+            _playerClass = Class.Teaching;
+            playerLevel = Class.Teaching._TAFE._level;                                            // Level
+            playerSpeed = playerSpeed * Class.Teaching._TAFE._speed;                              // Speed
+            playerDebt = Class.Teaching._TAFE._debtAdd;                                           // Debt
+            unitCreditsRequired = Class.Teaching._TAFE._creditsReq;                               // Required Unit Scores
+        }
+
     }
     IEnumerator FreezePlayer()
     {

@@ -22,28 +22,17 @@ public class EnemyScript : MonoBehaviour {
         }
     }
 
-
-    // Use this for initialization
     public void Start () {
         logic = new EnemyLogic();
-
         Rigidbody = GetComponent<Rigidbody2D>();
     }
 	
-	// Update is called once per frame
 	void Update () {
-
-   //     transform.Rotate(logic.newDirection() * Time.deltaTime * logic.newRotationSpeed(), Space.World);
         Rigidbody.velocity = -transform.up * logic.newSpeed() * Time.deltaTime;
-
-        
     }
 
-    
-    
     void OnCollisionEnter(Collision col)
     {
-        Debug.Log("enemy collision");
         if (col.gameObject.tag == "Wall"|| col.gameObject.tag == "Enemy") {
             Rigidbody.velocity = Rigidbody.velocity * -1;
         }
@@ -79,5 +68,4 @@ public class EnemyLogic {
         Random.InitState(476768);
         return Random.Range(-1.0f, 1.0f);
     }
-
 }

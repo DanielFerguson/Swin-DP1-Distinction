@@ -35,8 +35,16 @@ public class Iteration3TDDTests
 
     [Test]
     public void TDDMovementAbility()
-    {
-        // Responsibility: Duncan
-        Assert.False(false);
+    {        // Responsibility: Duncan
+        var enemyGameObject = new GameObject();
+        enemyGameObject.AddComponent<EnemyScript>();
+        EnemyScript enemy = enemyGameObject.GetComponent<EnemyScript>();
+
+        enemy.Start();
+
+        Rigidbody enemybody= enemy.GetComponent<Rigidbody>();
+        
+
+        Assert.NotNull(enemybody.velocity);
     }
 }
